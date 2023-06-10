@@ -17,15 +17,21 @@ const SocialShareButtons = ({ url, title }) => {
         <FaFacebookSquare className="text-[#3b5998] w-12 h-auto" />
       </Link>
 
-      <Link target="_blank" to="https://www.facebook.com">
+      <Link
+        target="_blank"
+        to={`https://www.twitter.com/intent/tweet?url=${url}`}
+      >
         <FaTwitterSquare className="text-[#00acee] w-12 h-auto" />
       </Link>
 
-      <Link target="_blank" to="https://www.facebook.com">
+      <Link
+        target="_blank"
+        to={`https://www.reddit.com/submit?url=${url}&title=${title}`}
+      >
         <FaRedditSquare className="text-[#ff4500] w-12 h-auto" />
       </Link>
 
-      <Link target="_blank" to="https://www.facebook.com">
+      <Link target="_blank" to={`https://api.whatsapp.com/send?text=${url}`}>
         <FaWhatsappSquare className="text-[#25d366] w-12 h-auto" />
       </Link>
     </div>
