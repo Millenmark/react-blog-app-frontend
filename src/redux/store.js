@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import xxx from "./reducers/countReducers";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    xxx,
+  },
 });
 
 export default store;
