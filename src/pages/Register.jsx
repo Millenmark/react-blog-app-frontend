@@ -1,6 +1,22 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    watch,
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    mode: "onChange",
+  });
+
   const submitHandler = (e) => {
     e.preventDefault();
   };
@@ -12,7 +28,7 @@ const Register = () => {
           <h1 className="font-roboto text-2xl font-bold text-center text-dark-hard mb-8">
             Sign Up
           </h1>
-          <form onSubmit={submitHandler}>
+          <form onSubmit={handleSubmit(submitHandler)}>
             <div className="flex flex-col mb-6 w-full">
               <label
                 htmlFor="name"
@@ -23,9 +39,21 @@ const Register = () => {
               <input
                 type="text"
                 id="name"
+                {...register("name", {
+                  required: { value: true, message: "This field is required" },
+                  minLength: {
+                    value: 3,
+                    message: "Name must be at least 3 characters",
+                  },
+                })}
                 placeholder="Enter name"
                 className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border border-[#c3cad9]"
               />
+              {errors.name?.message && (
+                <p className=" text-red-500 text-xs mt-1">
+                  {errors.name?.message}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col mb-6 w-full">
@@ -38,6 +66,7 @@ const Register = () => {
               <input
                 type="email"
                 id="email"
+                {...register("email")}
                 placeholder="Enter email"
                 className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border border-[#c3cad9]"
               />
@@ -53,6 +82,7 @@ const Register = () => {
               <input
                 type="password"
                 id="password"
+                {...register("password")}
                 placeholder="Enter password"
                 className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border border-[#c3cad9]"
               />
@@ -68,6 +98,7 @@ const Register = () => {
               <input
                 type="password"
                 id="confirmPassword"
+                {...register("confirmPassword")}
                 placeholder="Confirm Password"
                 className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border border-[#c3cad9]"
               />
