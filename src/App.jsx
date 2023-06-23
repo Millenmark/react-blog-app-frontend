@@ -8,10 +8,12 @@ import {
 import DefaultLayout from "./layouts/DefaultLayout";
 import Home from "./pages/Home";
 import ArticleDetail from "./pages/ArticleDetail";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
+      <Route path="/register" element={<Register />} />
       <Route path="*" element={<h1>Walang tao here beh</h1>} />
 
       <Route path="/" element={<DefaultLayout />}>
