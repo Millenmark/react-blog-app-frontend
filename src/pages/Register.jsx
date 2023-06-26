@@ -165,9 +165,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={!isValid}
-              className={`${
-                isValid ? "bg-primary" : "bg-stone-400"
-              } text-white font-bold text-lg py-3 px-8 w-full rounded-lg my-6`}
+              className="bg-primary text-white font-bold text-lg py-3 px-8 w-full rounded-lg my-6 disabled:opacity-70"
             >
               Register
             </button>
