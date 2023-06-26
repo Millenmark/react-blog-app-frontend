@@ -17,9 +17,11 @@ const Register = () => {
     mode: "onChange",
   });
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = (data) => {
+    console.log(data);
   };
+
+  const password = watch("password");
 
   return (
     <>
@@ -40,14 +42,16 @@ const Register = () => {
                 type="text"
                 id="name"
                 {...register("name", {
-                  required: { value: true, message: "This field is required" },
+                  required: { value: true, message: "Name is required" },
                   minLength: {
                     value: 3,
                     message: "Name must be at least 3 characters",
                   },
                 })}
                 placeholder="Enter name"
-                className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border border-[#c3cad9]"
+                className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border ${
+                  errors.name ? "border-red-500" : "border-[#c3cad9]"
+                }`}
               />
               {errors.name?.message && (
                 <p className=" text-red-500 text-xs mt-1">
@@ -66,10 +70,24 @@ const Register = () => {
               <input
                 type="email"
                 id="email"
-                {...register("email")}
+                {...register("email", {
+                  required: { value: true, message: "Email is required" },
+                  pattern: {
+                    value:
+                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: "Please enter a valid email.",
+                  },
+                })}
                 placeholder="Enter email"
-                className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border border-[#c3cad9]"
+                className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border ${
+                  errors.email ? "border-red-500" : "border-[#c3cad9]"
+                }`}
               />
+              {errors.email?.message && (
+                <p className=" text-red-500 text-xs mt-1">
+                  {errors.email?.message}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col mb-6 w-full">
@@ -82,10 +100,26 @@ const Register = () => {
               <input
                 type="password"
                 id="password"
-                {...register("password")}
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "Password is required",
+                  },
+                  minLength: {
+                    value: 6,
+                    message: "Password length must be at least 6 characters",
+                  },
+                })}
                 placeholder="Enter password"
-                className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border border-[#c3cad9]"
+                className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border ${
+                  errors.password ? "border-red-500" : "border-[#c3cad9]"
+                }`}
               />
+              {errors.password?.message && (
+                <p className=" text-red-500 text-xs mt-1">
+                  {errors.password?.message}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col w-full">
@@ -98,22 +132,42 @@ const Register = () => {
               <input
                 type="password"
                 id="confirmPassword"
-                {...register("confirmPassword")}
+                {...register("confirmPassword", {
+                  required: {
+                    value: true,
+                    message: "This field is required",
+                  },
+                  validate: (value) => {
+                    if (value !== password) {
+                      return "Password do not match.";
+                    }
+                  },
+                })}
                 placeholder="Confirm Password"
-                className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border border-[#c3cad9]"
+                className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border ${
+                  errors.confirmPassword ? "border-red-500" : "border-[#c3cad9]"
+                }`}
               />
+              {errors.confirmPassword?.message && (
+                <p className=" text-red-500 text-xs mt-1">
+                  {errors.confirmPassword?.message}
+                </p>
+              )}
             </div>
 
             <Link
               to="/forgotten-password"
-              className="text-sm font-semibold text-primary"
+              className="text-sm font-semibold text-primary hover:underline"
             >
               Forgot Password?
             </Link>
 
             <button
               type="submit"
-              className="bg-primary text-white font-bold text-lg py-3 px-8 w-full rounded-lg my-6"
+              disabled={!isValid}
+              className={`${
+                isValid ? "bg-primary" : "bg-stone-400"
+              } text-white font-bold text-lg py-3 px-8 w-full rounded-lg my-6`}
             >
               Register
             </button>
