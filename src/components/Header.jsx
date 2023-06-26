@@ -44,9 +44,11 @@ const Header = () => {
               </li>
             ))}
           </ul>
-          <button className="border-blue-500 border-2 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all mt-5 lg:mt-0 duration-300 ">
-            Sign in
-          </button>
+          <Link to="/register">
+            <button className="border-blue-500 border-2 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all mt-5 lg:mt-0 duration-300 ">
+              Sign in
+            </button>
+          </Link>
         </div>
       </nav>
     </header>
