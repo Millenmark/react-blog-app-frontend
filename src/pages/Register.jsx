@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-
+import toast from "react-hot-toast";
 import { signup } from "../services";
 
 const Register = () => {
@@ -13,7 +13,7 @@ const Register = () => {
       console.log(data);
     },
     onError: (error) => {
-      console.log(error);
+      toast.error(error.message);
     },
   });
   const {
