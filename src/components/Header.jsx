@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [navIsVisible, setNavIsVisible] = useState(false);
+  const { userInfo } = useSelector((state) => state.user);
 
   const handleNavigationVisibility = () => {
     setNavIsVisible((prev) => !prev);
@@ -44,11 +46,15 @@ const Header = () => {
               </li>
             ))}
           </ul>
-          <Link to="/register">
-            <button className="border-blue-500 border-2 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all mt-5 lg:mt-0 duration-300 ">
-              Sign in
-            </button>
-          </Link>
+          {userInfo ? (
+            <></>
+          ) : (
+            <Link to="/register">
+              <button className="border-blue-500 border-2 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all mt-5 lg:mt-0 duration-300 ">
+                Sign in
+              </button>
+            </Link>
+          )}
         </div>
       </nav>
     </header>
