@@ -11,6 +11,7 @@ import ArticleDetail from "./pages/ArticleDetail";
 import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<DefaultLayout />}>
         <Route index path="/" element={<Home />} />
         <Route path="/blog/:id" element={<ArticleDetail />} />
+        <Route path="/profile" element={<Profile />} />
       </Route>
     </>
   )
