@@ -10,10 +10,12 @@ import Home from "./pages/Home";
 import ArticleDetail from "./pages/ArticleDetail";
 import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
+      <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="*" element={<h1>Walang tao here beh</h1>} />
 
