@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/actions/userActions";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const menu = ["home", "articles", "pages", "pricing", "faq"];
@@ -13,6 +14,7 @@ const Header = () => {
   const [profileDropdown, setProfileDropdown] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleNavigationVisibility = () => {
     setNavIsVisible((prev) => !prev);
@@ -59,7 +61,7 @@ const Header = () => {
                     className=" flex gap-x-1 items-center border-blue-500 border-2 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all mt-5 lg:mt-0 duration-300 "
                     onClick={() => setProfileDropdown(!profileDropdown)}
                   >
-                    <span>Profile</span>
+                    <span>Account</span>
                     <MdKeyboardArrowDown />
                   </button>
                   <div
@@ -70,9 +72,10 @@ const Header = () => {
                     <ul className="bg-dark-soft lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
                       <button
                         type="button"
+                        onClick={() => navigate("/profile")}
                         className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
                       >
-                        Dashboard
+                        Profile
                       </button>
                       <button
                         type="button"
@@ -87,11 +90,12 @@ const Header = () => {
               </div>
             </div>
           ) : (
-            <Link to="/register">
-              <button className="border-blue-500 border-2 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all mt-5 lg:mt-0 duration-300 ">
-                Sign in
-              </button>
-            </Link>
+            <button
+              onClick={() => navigate("/login")}
+              className="border-blue-500 border-2 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all mt-5 lg:mt-0 duration-300 "
+            >
+              Sign in
+            </button>
           )}
         </div>
       </nav>
