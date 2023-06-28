@@ -1,53 +1,48 @@
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { signup } from "../services";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo } from "../redux/reducers/userReducers";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "../services";
+import ProfilePicture from "../components/ProfilePicture";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: ({ name, email, password }) => {
-      return signup({ name, email, password });
+  const {
+    data: profileData,
+    isLoading: profileIsLoading,
+    error: profileError,
+  } = useQuery({
+    queryFn: () => {
+      return getUserProfile({ token: userInfo.token });
     },
-    onSuccess: (data) => {
-      dispatch(setUserInfo(data));
-      localStorage.setItem("account", JSON.stringify(data));
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
+    queryKey: ["profile"],
   });
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    watch,
   } = useForm({
     defaultValues: {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
     mode: "onChange",
+    values: {
+      name: profileIsLoading ? "" : profileData.name,
+      email: profileIsLoading ? "" : profileData.email,
+    },
   });
 
-  const submitHandler = (data) => {
-    const { name, email, password } = data;
-    mutate({ name, email, password });
-  };
-
-  const password = watch("password");
+  const submitHandler = (data) => {};
 
   useEffect(() => {
-    if (userInfo) {
+    if (!userInfo) {
       navigate("/");
     }
   }, [navigate, userInfo]);
@@ -56,9 +51,7 @@ const Profile = () => {
     <>
       <section className="container mx-auto px-5 py-10">
         <div className="w-full max-w-sm mx-auto">
-          <h1 className="font-roboto text-2xl font-bold text-center text-dark-hard mb-8">
-            Sign Up
-          </h1>
+          <ProfilePicture avatar={profileData?.avatar} />
           <form onSubmit={handleSubmit(submitHandler)}>
             <div className="flex flex-col mb-6 w-full">
               <label
@@ -151,52 +144,13 @@ const Profile = () => {
               )}
             </div>
 
-            <div className="flex flex-col w-full mb-5">
-              <label
-                htmlFor="confirmPassword"
-                className="text-[#5a718] font-semibold block"
-              >
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                {...register("confirmPassword", {
-                  required: {
-                    value: true,
-                    message: "This field is required",
-                  },
-                  validate: (value) => {
-                    if (value !== password) {
-                      return "Password do not match.";
-                    }
-                  },
-                })}
-                placeholder="Confirm Password"
-                className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-2 py-3 font-semibold block outline-none border ${
-                  errors.confirmPassword ? "border-red-500" : "border-[#c3cad9]"
-                }`}
-              />
-              {errors.confirmPassword?.message && (
-                <p className=" text-red-500 text-xs mt-1">
-                  {errors.confirmPassword?.message}
-                </p>
-              )}
-            </div>
-
             <button
               type="submit"
-              disabled={!isValid || isLoading}
+              disabled={!isValid || profileIsLoading}
               className="bg-primary text-white font-bold text-lg py-3 px-8 w-full rounded-lg my-6 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               Register
             </button>
-            <p className="text-sm font-semibold text-[#5a7184]">
-              Already have an account?{" "}
-              <Link to="/login" className="text-primary hover:underline">
-                Login here
-              </Link>
-            </p>
           </form>
         </div>
       </section>
