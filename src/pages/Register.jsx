@@ -151,7 +151,7 @@ const Register = () => {
               )}
             </div>
 
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full mb-5">
               <label
                 htmlFor="confirmPassword"
                 className="text-[#5a718] font-semibold block"
@@ -183,13 +183,6 @@ const Register = () => {
                 </p>
               )}
             </div>
-
-            <Link
-              to="/forgotten-password"
-              className="text-sm font-semibold text-primary hover:underline"
-            >
-              Forgot Password?
-            </Link>
 
             <button
               type="submit"
