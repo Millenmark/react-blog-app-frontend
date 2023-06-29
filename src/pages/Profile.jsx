@@ -72,7 +72,7 @@ const Profile = () => {
   };
 
   return (
-    <section className="container mx-auto px-5 py-10">
+    <section className="relative container mx-auto px-5 py-10">
       <div className="w-full max-w-sm mx-auto">
         {/* <p>{profileData.name}</p> this works because of the queryClient.invalidateQueries() */}
         <ProfilePicture avatar={profileData?.avatar} />
